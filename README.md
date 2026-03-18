@@ -40,6 +40,19 @@ https://raw.githubusercontent.com/dicodingacademy/dicoding_dataset/main/employee
 
 **Setup Environment:**
 
+1. Buat virtual environment:
+python3 -m venv venv
+
+2. Aktifkan virtual environment:
+- Mac/Linux:
+source venv/bin/activate
+
+- Windows:
+venv\Scripts\activate
+
+3. Install dependencies:
+pip install -r requirements.txt
+
 ```bash
 # Clone atau buat direktori proyek
 mkdir submission && cd submission
@@ -92,22 +105,22 @@ Dashboard dibuat untuk memberikan gambaran menyeluruh kepada tim HR dan manajeme
 4. **Attrition by Job Level** — Level jabatan dengan tingkat resign tertinggi
 5. **Attrition by Work-Life Balance** — Korelasi kepuasan WLB dengan keputusan resign
 
-## Business Insights
-- Employees with high overtime have significantly higher attrition risk, indicating workload imbalance.
-- Low work-life balance is a strong predictor of resignation and should be addressed through HR policy.
-- Employees in lower job levels are more likely to leave, suggesting career growth concerns.
-- Lower-income employees show higher attrition tendency compared to higher-income groups.
+## Insight Bisnis
 
-## Model-Driven Insights Validation
-The intuitive findings presented in the dashboard are unequivocally evidence-based. The variables featured—**OverTime, MonthlyIncome, JobLevel, and WorkLifeBalance**—are explicitly the top highest-contributing predictors of attrition according to the Random Forest model's feature importance analysis. This guarantees that all subsequent executive decisions target statistically proven root causes rather than mere observational correlation.
+Karyawan dengan lembur tinggi memiliki risiko attrition yang jauh lebih besar, mengindikasikan adanya ketidakseimbangan beban kerja.
+Work-life balance yang rendah merupakan prediktor kuat terhadap pengunduran diri dan perlu segera ditangani melalui kebijakan HR.
+Karyawan pada level jabatan yang lebih rendah cenderung lebih sering keluar, mengindikasikan adanya kekhawatiran terkait pengembangan karir.
+Karyawan berpenghasilan rendah menunjukkan kecenderungan attrition yang lebih tinggi dibandingkan kelompok berpenghasilan lebih tinggi.
 
-## High Risk Employee Definition
-The "High Risk Employee (%)" KPI provides an actionable early warning metric for the HR team.
-- **Definition:** An employee is classified as "High Risk" if their predicted probability of attrition exceeds the **0.5 (50%) threshold**.
-- **Threshold Justification:** A decision boundary of 0.5 was selected to achieve a robust balance between precision and recall, ensuring HR interventions capture genuine flight risks without generating excessive false alarms.
-- **Mechanism:** This metric is derived directly from the model's `predict_proba()` function, isolating the confidence score for the attrition class based on each employee's unique profile.
-- **Business Value:** This transforms HR policy from reactive to proactive, enabling targeted retention strategies for highly vulnerable demographics before resignation occurs.
+## Validasi Insight Berbasis Model
+Temuan-temuan yang disajikan dalam dashboard ini sepenuhnya berbasis bukti empiris. Variabel-variabel yang ditampilkan — OverTime, MonthlyIncome, JobLevel, dan WorkLifeBalance — secara eksplisit merupakan prediktor dengan kontribusi tertinggi terhadap attrition berdasarkan analisis feature importance model Random Forest. Hal ini memastikan bahwa seluruh keputusan eksekutif yang diambil selanjutnya menarget akar permasalahan yang telah terbukti secara statistik, bukan sekadar korelasi observasional semata.
+Definisi Karyawan Berisiko Tinggi
+KPI "High Risk Employee (%)" menyediakan metrik peringatan dini yang dapat ditindaklanjuti oleh tim HR.
 
+## Definisi: Seorang karyawan dikategorikan sebagai "Berisiko Tinggi" apabila probabilitas prediksi attrition-nya melebihi ambang batas 0,5 (50%).
+Justifikasi Threshold: Batas keputusan 0,5 dipilih untuk mencapai keseimbangan optimal antara precision dan recall, memastikan intervensi HR menjangkau karyawan yang benar-benar berpotensi resign tanpa menghasilkan terlalu banyak false alarm.
+Mekanisme: Metrik ini diturunkan langsung dari fungsi predict_proba() model, yang mengisolasi skor keyakinan untuk kelas attrition berdasarkan profil unik masing-masing karyawan.
+Nilai Bisnis: Hal ini mentransformasi kebijakan HR dari reaktif menjadi proaktif, memungkinkan strategi retensi yang tepat sasaran bagi kelompok karyawan paling rentan sebelum pengunduran diri terjadi.
 ---
 
 ## Menjalankan Prediksi
@@ -132,7 +145,10 @@ Berdasarkan analisis menyeluruh terhadap dataset HR PT Jaya Jaya Maju, ditemukan
 4. **Work-Life Balance buruk** menurunkan kepuasan kerja dan meningkatkan kemungkinan resign
 5. **Distance From Home jauh** berkorelasi dengan kelelahan komuter yang berujung pada turnover
 
-Model Random Forest (setelah hyperparameter tuning) berhasil mencapai **akurasi > 85%** dan **AUC > 0.80**, menjadikannya alat prediksi yang andal untuk sistem early warning HR.
+Model Random Forest yang telah dituning menghasilkan nilai AUC sebesar 0.7884. 
+Meskipun performanya cukup baik, Logistic Regression menunjukkan performa yang lebih stabil dan unggul secara keseluruhan dalam evaluasi model.
+
+Oleh karena itu, Logistic Regression dipilih sebagai model terbaik dalam proyek ini.
 
 ---
 
@@ -156,4 +172,4 @@ Berdasarkan temuan analisis, berikut adalah rekomendasi strategis untuk tim HR P
 
 ---
 
-*Proyek ini dibuat sebagai submission Dicoding — Belajar Penerapan Data Science | © 2024*
+*Proyek ini dibuat sebagai submission Dicoding — Belajar Penerapan Data Science | © 2026*
