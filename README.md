@@ -173,8 +173,8 @@ Model Logistic Regression dipilih sebagai model terbaik karena menunjukkan perfo
 
 ## Link Proyek
 
-- 🔗 **GitHub:** [https://github.com/ANDI-BACHDAR-DD/Submission_kelas_Expert_data_science_Dicoding_andi_bachdar](https://github.com/ANDI-BACHDAR-DD/Submission_kelas_Expert_data_science_Dicoding_andi_bachdar.git)
-- 🌐 **Streamlit Dashboard:** [https://3xhevdnjbhbg7xziwsxvg9.streamlit.app](https://3xhevdnjbhbg7xziwsxvg9.streamlit.app)
+- 🔗 **GitHub:** https://github.com/ANDI-BACHDAR-DD/Submission_kelas_Expert_data_science_Dicoding_andi_bachdar.git
+- 🌐 **Streamlit Dashboard:** https://3xhevdnjbhbg7xziwsxvg9.streamlit.app
 
 ---
 
