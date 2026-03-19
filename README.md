@@ -21,8 +21,6 @@ Berdasarkan data HR internal, perusahaan mengidentifikasi sejumlah permasalahan 
 
 ## Cakupan Proyek
 
-Proyek ini mencakup tiga area utama:
-
 | Area | Deskripsi |
 |------|-----------|
 | **Analisis Data** | Eksplorasi mendalam terhadap dataset HR untuk menemukan pola dan faktor penyebab attrition |
@@ -40,24 +38,17 @@ https://raw.githubusercontent.com/dicodingacademy/dicoding_dataset/main/employee
 
 **Setup Environment:**
 
-1. Buat virtual environment:
+```bash
+# 1. Buat virtual environment
 python3 -m venv venv
 
-2. Aktifkan virtual environment:
-- Mac/Linux:
+# 2. Aktifkan virtual environment
+# Mac/Linux:
 source venv/bin/activate
-
-- Windows:
+# Windows:
 venv\Scripts\activate
 
-3. Install dependencies:
-pip install -r requirements.txt
-
-```bash
-# Clone atau buat direktori proyek
-mkdir submission && cd submission
-
-# Install dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
 ```
 
@@ -67,8 +58,11 @@ numpy
 pandas
 matplotlib
 seaborn
-scikit-learn==1.2.2
-joblib==1.3.1
+scikit-learn>=1.4.0
+joblib
+streamlit>=1.28.0
+altair>=5.0.0
+pillow>=10.0.0
 ```
 
 **Struktur Proyek:**
@@ -76,10 +70,11 @@ joblib==1.3.1
 submission/
 ├── model/
 │   └── model.pkl
+├── app.py
 ├── notebook.ipynb
 ├── prediction.py
+├── employee_data.csv
 ├── README.md
-├── dashboard.png
 └── requirements.txt
 ```
 
@@ -87,89 +82,100 @@ submission/
 
 ## Business Dashboard
 
-Dashboard dibuat untuk memberikan gambaran menyeluruh kepada tim HR dan manajemen eksekutif tentang kondisi attrition di perusahaan.
+Dashboard interaktif dibuat menggunakan Streamlit untuk memberikan gambaran menyeluruh kepada tim HR dan manajemen eksekutif tentang kondisi attrition di perusahaan.
 
-![Dashboard HR Attrition](dashboard.png)
+🔗 **Link Dashboard:** [https://3xhevdnjbhbg7xziwsxvg9.streamlit.app](https://3xhevdnjbhbg7xziwsxvg9.streamlit.app)
+
+> **Cara upload gambar dashboard ke README:**
+> Buka file README.md di GitHub → klik Edit (ikon pensil) → drag & drop gambar dashboard ke text editor → GitHub akan otomatis generate URL gambar → gunakan URL tersebut di bawah ini.
+
+<!-- Ganti URL_GAMBAR_DARI_GITHUB dengan URL yang didapat setelah drag & drop gambar di GitHub editor -->
+![Dashboard HR Attrition](URL_GAMBAR_DARI_GITHUB)
 
 ### KPI Utama yang Ditampilkan:
-| KPI | Nilai |
-|-----|-------|
-| **Total Karyawan** | ~1.400+ |
-| **Jumlah Karyawan Keluar** | ~200+ |
-| **Attrition Rate** | ~16.9% |
+| KPI | Keterangan |
+|-----|-----------|
+| **Attrition Rate** | Persentase karyawan yang keluar |
+| **High Risk Employee** | % karyawan dengan probabilitas resign > 50% |
+| **Avg Income** | Perbandingan rata-rata gaji karyawan resign vs bertahan |
+
+### Fitur Filter Dashboard:
+- **Filter Department** — Multiselect, bisa pilih satu/lebih/semua departemen
+- **Filter Gender** — Multiselect, bisa pilih satu/lebih/semua gender
 
 ### Visualisasi dalam Dashboard:
-1. **Attrition by Department** — Divisi mana yang paling banyak kehilangan karyawan
-2. **Attrition by OverTime** — Perbandingan resign antara karyawan overtime vs tidak
-3. **Attrition by Monthly Income** — Distribusi pendapatan karyawan yang resign vs bertahan
-4. **Attrition by Job Level** — Level jabatan dengan tingkat resign tertinggi
-5. **Attrition by Work-Life Balance** — Korelasi kepuasan WLB dengan keputusan resign
+1. **Overtime vs Attrition** — Perbandingan resign antara karyawan overtime vs tidak
+2. **Distribusi Pendapatan** — Distribusi income karyawan resign vs bertahan
+3. **Work-Life Balance vs Attrition** — Korelasi WLB dengan keputusan resign
+4. **Job Level vs Attrition** — Level jabatan dengan tingkat resign tertinggi
+
+---
 
 ## Insight Bisnis
 
-Karyawan dengan lembur tinggi memiliki risiko attrition yang jauh lebih besar, mengindikasikan adanya ketidakseimbangan beban kerja.
-Work-life balance yang rendah merupakan prediktor kuat terhadap pengunduran diri dan perlu segera ditangani melalui kebijakan HR.
-Karyawan pada level jabatan yang lebih rendah cenderung lebih sering keluar, mengindikasikan adanya kekhawatiran terkait pengembangan karir.
-Karyawan berpenghasilan rendah menunjukkan kecenderungan attrition yang lebih tinggi dibandingkan kelompok berpenghasilan lebih tinggi.
+- Karyawan dengan lembur tinggi memiliki risiko attrition yang jauh lebih besar, mengindikasikan adanya ketidakseimbangan beban kerja.
+- Work-life balance yang rendah merupakan prediktor kuat terhadap pengunduran diri dan perlu segera ditangani melalui kebijakan HR.
+- Karyawan pada level jabatan yang lebih rendah cenderung lebih sering keluar, mengindikasikan adanya kekhawatiran terkait pengembangan karir.
+- Karyawan berpenghasilan rendah menunjukkan kecenderungan attrition yang lebih tinggi dibandingkan kelompok berpenghasilan lebih tinggi.
 
 ## Validasi Insight Berbasis Model
-Temuan-temuan yang disajikan dalam dashboard ini sepenuhnya berbasis bukti empiris. Variabel-variabel yang ditampilkan — OverTime, MonthlyIncome, JobLevel, dan WorkLifeBalance — secara eksplisit merupakan prediktor dengan kontribusi tertinggi terhadap attrition berdasarkan analisis feature importance model Random Forest. Hal ini memastikan bahwa seluruh keputusan eksekutif yang diambil selanjutnya menarget akar permasalahan yang telah terbukti secara statistik, bukan sekadar korelasi observasional semata.
-Definisi Karyawan Berisiko Tinggi
-KPI "High Risk Employee (%)" menyediakan metrik peringatan dini yang dapat ditindaklanjuti oleh tim HR.
 
-## Definisi: Seorang karyawan dikategorikan sebagai "Berisiko Tinggi" apabila probabilitas prediksi attrition-nya melebihi ambang batas 0,5 (50%).
-Justifikasi Threshold: Batas keputusan 0,5 dipilih untuk mencapai keseimbangan optimal antara precision dan recall, memastikan intervensi HR menjangkau karyawan yang benar-benar berpotensi resign tanpa menghasilkan terlalu banyak false alarm.
-Mekanisme: Metrik ini diturunkan langsung dari fungsi predict_proba() model, yang mengisolasi skor keyakinan untuk kelas attrition berdasarkan profil unik masing-masing karyawan.
-Nilai Bisnis: Hal ini mentransformasi kebijakan HR dari reaktif menjadi proaktif, memungkinkan strategi retensi yang tepat sasaran bagi kelompok karyawan paling rentan sebelum pengunduran diri terjadi.
+Temuan-temuan yang disajikan dalam dashboard ini sepenuhnya berbasis bukti empiris. Variabel-variabel yang ditampilkan — **OverTime, MonthlyIncome, JobLevel, dan WorkLifeBalance** — secara eksplisit merupakan prediktor dengan kontribusi tertinggi terhadap attrition berdasarkan analisis *feature importance* model Random Forest.
+
+## Definisi Karyawan Berisiko Tinggi
+
+- **Definisi:** Seorang karyawan dikategorikan sebagai "Berisiko Tinggi" apabila probabilitas prediksi attrition-nya melebihi ambang batas **0,5 (50%)**.
+- **Justifikasi Threshold:** Batas keputusan 0,5 dipilih untuk mencapai keseimbangan optimal antara precision dan recall.
+- **Mekanisme:** Metrik ini diturunkan langsung dari fungsi `predict_proba()` model.
+- **Nilai Bisnis:** Mentransformasi kebijakan HR dari reaktif menjadi proaktif.
+
 ---
 
 ## Menjalankan Prediksi
-
-Setelah model dilatih dan disimpan (melalui `notebook.ipynb`), gunakan script berikut untuk melakukan prediksi:
 
 ```bash
 python prediction.py
 ```
 
-Script ini akan memuat `model/model.pkl` dan menghasilkan prediksi attrition untuk contoh data karyawan.
-
 ---
 
 ## Conclusion
 
-Berdasarkan analisis menyeluruh terhadap dataset HR PT Jaya Jaya Maju, ditemukan bahwa **attrition karyawan dipicu oleh beberapa faktor kunci yang saling berinteraksi**:
+Berdasarkan analisis menyeluruh terhadap dataset HR PT Jaya Jaya Maju:
 
-1. **OverTime** adalah prediktor terkuat — karyawan yang bekerja overtime secara reguler memiliki risiko resign jauh lebih tinggi
-2. **Monthly Income rendah** menjadi faktor pendorong utama karyawan level bawah untuk mencari peluang di tempat lain
-3. **Job Level rendah** (entry-level) menandakan minimnya jalur karier yang jelas
-4. **Work-Life Balance buruk** menurunkan kepuasan kerja dan meningkatkan kemungkinan resign
-5. **Distance From Home jauh** berkorelasi dengan kelelahan komuter yang berujung pada turnover
+1. **OverTime** adalah prediktor terkuat attrition
+2. **Monthly Income rendah** mendorong karyawan level bawah untuk keluar
+3. **Job Level rendah** menandakan minimnya jalur karier yang jelas
+4. **Work-Life Balance buruk** menurunkan kepuasan kerja
+5. **Distance From Home jauh** berkorelasi dengan kelelahan komuter
 
-Model Random Forest yang telah dituning menghasilkan nilai AUC sebesar 0.7884. 
-Meskipun performanya cukup baik, Logistic Regression menunjukkan performa yang lebih stabil dan unggul secara keseluruhan dalam evaluasi model.
-
-Oleh karena itu, Logistic Regression dipilih sebagai model terbaik dalam proyek ini.
+Model Logistic Regression dipilih sebagai model terbaik karena menunjukkan performa yang lebih stabil dibanding Random Forest.
 
 ---
 
 ## Rekomendasi Action Items
 
-Berdasarkan temuan analisis, berikut adalah rekomendasi strategis untuk tim HR PT Jaya Jaya Maju:
-
-### 🔴 Prioritas Tinggi (Segera Dilaksanakan)
-1. **Batasi Overtime** — Terapkan kebijakan pembatasan jam lembur maksimal 2x/minggu dan berikan kompensasi yang adil
-2. **Evaluasi & Sesuaikan Gaji Entry-Level** — Lakukan benchmarking salary untuk posisi Job Level 1 & 2 agar kompetitif di pasar
+### 🔴 Prioritas Tinggi
+1. **Batasi Overtime** — Terapkan kebijakan pembatasan jam lembur maksimal 2x/minggu
+2. **Evaluasi & Sesuaikan Gaji Entry-Level** — Lakukan benchmarking salary untuk Job Level 1 & 2
 
 ### 🟡 Prioritas Menengah (1-3 Bulan)
-3. **Program Work-Life Balance** — Implementasikan flexible working hours, remote work option, dan wellness program
-4. **Jalur Karier yang Jelas** — Buat Individual Development Plan (IDP) dan program mentoring untuk karyawan junior
-5. **Fasilitas Commuting** — Sediakan shuttle bus, subsidi transportasi, atau opsi remote work bagi karyawan dengan jarak rumah > 20 km
+3. **Program Work-Life Balance** — Flexible working hours dan wellness program
+4. **Jalur Karier yang Jelas** — Individual Development Plan (IDP) untuk karyawan junior
+5. **Fasilitas Commuting** — Subsidi transportasi bagi karyawan dengan jarak > 20 km
 
 ### 🟢 Prioritas Jangka Panjang (3-12 Bulan)
-6. **Sistem Early Warning Berbasis ML** — Deploy model prediksi ini ke dashboard HR untuk monitoring real-time karyawan berisiko
-7. **Exit Interview Terstruktur** — Kumpulkan data kualitatif untuk memperkaya model prediksi
-8. **Program Employee Engagement** — Survey kepuasan berkala (quarterly) dan tindak lanjut yang terukur
+6. **Sistem Early Warning Berbasis ML** — Deploy model prediksi ke dashboard HR
+7. **Exit Interview Terstruktur** — Kumpulkan data kualitatif untuk memperkaya model
+8. **Program Employee Engagement** — Survey kepuasan berkala (quarterly)
 
 ---
 
-*Proyek ini dibuat sebagai submission Dicoding — Belajar Penerapan Data Science | © 2026*
+## Link Proyek
+
+- 🔗 **GitHub:** [https://github.com/ANDI-BACHDAR-DD/Submission_kelas_Expert_data_science_Dicoding_andi_bachdar](https://github.com/ANDI-BACHDAR-DD/Submission_kelas_Expert_data_science_Dicoding_andi_bachdar.git)
+- 🌐 **Streamlit Dashboard:** [https://3xhevdnjbhbg7xziwsxvg9.streamlit.app](https://3xhevdnjbhbg7xziwsxvg9.streamlit.app)
+
+---
+
+*Proyek ini dibuat sebagai submission Dicoding — Belajar Penerapan Data Science | © 2026 Andi Bachdar*
